@@ -15,6 +15,7 @@ static int hello_init(void)
 
     // 当前进程的 PID
     p = pid_task(find_vpid(pid), PIDTYPE_PID);
+    printk("me: %d %s\n", p->pid, p->comm);
 
     // 父进程
     if(p->parent == NULL) {
