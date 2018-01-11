@@ -16,8 +16,8 @@ int main() {
 
 	while (1) {
 		printf("%s>", openfilelist[currfd].dir);    //当前用户打开文件的目录名
-		// gets(command);
-		fgets(command,sizeof(command),stdin);
+		gets(command);
+		// fgets(command,sizeof(command),stdin);
 		indexOfCmd = -1;
 		if (strcmp(command, "")) {                   // command 不为空
 			sp = strtok(command, " ");              // 根据空格分解字符串
@@ -944,8 +944,8 @@ int my_write(int fd) {
 	// 用户可分多次输入写入内容，每次用回车结束
 	cout << "请输入文件数据, 以换行+ctrl+z 为文件结尾" << endl;
 	getchar();
-	// while (gets(textTmp)) {
-	while (fgets(textTmp,sizeof(textTmp),stdin)) {
+	while (gets(textTmp)) {
+	// while (fgets(textTmp,sizeof(textTmp),stdin)) {
 		textTmp[strlen(textTmp)] = '\n';
 		strcat(text, textTmp);
 	}
