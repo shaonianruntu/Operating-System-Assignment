@@ -78,20 +78,26 @@ unsigned char buffer[SIZE];
 
 
 /***** 函数申明 *****/
-void startSys();                // 进入文件系统
+// 方楠
+void startSys();                   // 进入文件系统
 void my_exitsys();                 // 退出文件系统
 void my_format();                  // 磁盘格式化函数
+// 马诗墨
 void my_mkdir(char *dirname);      // 创建子目录
 void my_rmdir(char *dirname);      // 删除子目录
+// 王振哲
 void my_ls();                      // 显示目录中的内容
 void my_cd(char *dirname);         // 用于更改当前目录
+// 于俊泽
 int  my_create(char *filename);    // 创建文件
 void my_rm(char *filename);        // 删除文件
 int  my_open(char *filename);      // 打开文件
 int  my_close(int fd);             // 关闭文件
+// 陈岑
 int  my_write(int fd);             // 写文件
-int  my_read(int fd);     // 读文件
 int  do_write(int fd, char *text, int len, char wstyle);
+// 曹美玲
+int  my_read(int fd);              // 读文件
 int  do_read(int fd, int len, char *text);
 
 
