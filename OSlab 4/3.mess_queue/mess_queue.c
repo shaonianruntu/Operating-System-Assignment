@@ -67,14 +67,32 @@ void * sender(){
 		sem_wait(&empty);
 		sem_wait(&mutex);
 
-        printf("Please input the message you want to send. \n");
+        printf("Please input the message you want to send: \n");
         scanf("%s", input);
 
         if(strcmp(input, "exit") == 0){
-            memcpy(msg.mtext,"end", sizeof("end"));
+            memcpy(msg.mtext, "end", sizeof("end"));
             msgsnd(msgid, &msg, sizeof(msg), 0);
+
+            printf("[message send] %s\n", msg.mtext);
+
+            sem_post(&full);
+            sem_post(&mutex);
+            
             break;
         }
+
+         if(strcmp(input, "end") == 0){
+            memcpy(msg.mtext, "end", sizeof("end"));
+            msgsnd(msgid, &msg, sizeof(msg), 0);
+
+            printf("[message send] %s\n", msg.mtext);
+
+            sem_post(&full);
+            sem_post(&mutex);
+            
+            break;
+        }       
 
         memcpy(msg.mtext, input, sizeof(input));
         msgsnd(msgid, &msg, sizeof(msg), 0);
@@ -90,7 +108,7 @@ void * sender(){
     memset(&msg, '\0', sizeof(msgbuf));
     // msg.mtype == 2
     msgrcv(msgid, &msg, sizeof(msgbuf), 2, 0);
-    printf("[message send] %s\n", msg.mtext);
+    printf("[message rereceived] %s\n", msg.mtext);
 
     //  Remove message Queue
     if(msgctl(msgid, IPC_RMID, 0) == -1){
@@ -112,15 +130,20 @@ void * receiver(){
 
         msgrcv(msgid, &msg, sizeof(msgbuf), 1, 0);
 
-        if(strcmp(msg.mtext, "end") == 0){
-            msg.mtype = 2;
-            memcpy(msg.mtext, "over", sizeof("over"));
-            msgsnd(msgid, &msg, sizeof(msgbuf), 0);
-            break;
-        }
-
         // Print
         printf("[message received] %s\n", msg.mtext);
+
+        if(strcmp(msg.mtext, "end") == 0){
+            msg.mtype = 2;
+
+            memcpy(msg.mtext, "over", sizeof("over"));
+            msgsnd(msgid, &msg, sizeof(msgbuf), 0);
+
+            printf("************** END ****************\n");
+            sem_post(&mutex);
+
+            break;
+        }
 
         //semaphore
         sem_post(&empty);
