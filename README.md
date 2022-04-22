@@ -1,4 +1,4 @@
-# OSlab
+# Operating System course assignment of HDU
 
 实验解析：https://www.zhihu.com/column/c_142990858
 
